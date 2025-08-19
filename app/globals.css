@@ -161,3 +161,52 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Line clamp utilities */
+@layer utilities {
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+  
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+}
+
+/* Responsive improvements */
+@layer components {
+  /* Mobile-first responsive container */
+  .container-responsive {
+    @apply w-full px-4 mx-auto;
+    @apply sm:px-6;
+    @apply lg:px-8;
+    @apply xl:px-0 xl:max-w-7xl;
+  }
+  
+  /* Responsive text sizes */
+  .text-responsive {
+    @apply text-sm;
+    @apply sm:text-base;
+    @apply lg:text-lg;
+  }
+  
+  /* Responsive spacing */
+  .space-responsive {
+    @apply space-y-2;
+    @apply sm:space-y-3;
+    @apply lg:space-y-4;
+  }
+}
