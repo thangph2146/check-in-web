@@ -13,13 +13,17 @@ import {
   DropdownMenuLabel,
 } from "../ui/dropdown-menu";
 import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "../ui/drawer";
+import {
   Navbar,
   NavBody,
-  NavItems,
   MobileNav,
   MobileNavHeader,
-  MobileNavMenu,
-  MobileNavToggle,
   NavbarButton,
 } from "../ui/resizable-navbar";
 import { 
@@ -38,7 +42,8 @@ import {
   Mail,
   Settings,
   User,
-  LogIn
+  LogIn,
+  X
 } from "lucide-react";
 
 interface NavigationItem {
@@ -90,7 +95,6 @@ function NavbarContent({ className }: { className?: string }) {
         { name: "Enterprise", link: "/pricing/enterprise", icon: <Building className="w-4 h-4" /> },
       ]
     },
-    { name: "Contact", link: "/contact", icon: <Mail className="w-4 h-4" /> },
   ];
 
   const handleItemClick = () => {
@@ -197,59 +201,51 @@ function NavbarContent({ className }: { className?: string }) {
           <CustomNavbarLogo />
           <div className="flex items-center space-x-2">
             <ThemeToggle />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+            <Drawer open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <DrawerTrigger asChild>
                 <button className="p-2 rounded-lg hover:bg-accent/10 transition-colors lg:hidden">
                   <Menu className="w-5 h-5 text-foreground" />
                 </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent 
-                align="end" 
-                className="w-80 mt-2 p-2"
-                sideOffset={8}
-              >
-                <DropdownMenuLabel className="px-2 py-1.5 text-sm font-semibold">Navigation Menu</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <div className="space-y-1">
-                  {navigationItems.map((item, index) => (
-                    <div key={`mobile-item-${index}`}>
-                      {item.subItems ? (
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <button className="flex items-center justify-between w-full px-3 py-2 text-sm outline-hidden select-none hover:bg-accent hover:text-accent-foreground rounded-md transition-colors">
-                              <div className="flex items-center space-x-3">
-                                <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10">
-                                  {item.icon}
-                                </div>
-                                <div className="flex flex-col">
-                                  <span className="font-medium">{item.name}</span>
-                                  <span className="text-xs text-muted-foreground">{item.subItems.length} items</span>
-                                </div>
+              </DrawerTrigger>
+              <DrawerContent className="h-[85vh]">
+                <DrawerHeader className="border-b border-border">
+                  <div className="flex items-center justify-between">
+                    <DrawerTitle className="text-lg font-semibold">Navigation Menu</DrawerTitle>
+                    <button 
+                      onClick={handleMobileMenuClose}
+                      className="p-2 rounded-lg hover:bg-accent/10 transition-colors"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                </DrawerHeader>
+                <div className="flex-1 overflow-y-auto p-4">
+                  <div className="space-y-4">
+                    {navigationItems.map((item, index) => (
+                      <div key={`mobile-item-${index}`} className="space-y-2">
+                        {item.subItems ? (
+                          <div className="space-y-2">
+                            <div className="flex items-center space-x-3 px-3 py-2 rounded-lg bg-accent/50">
+                              <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10">
+                                {item.icon}
                               </div>
-                              <ChevronDown className="w-4 h-4" />
-                            </button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent 
-                            side="right" 
-                            className="w-72 p-2"
-                            sideOffset={4}
-                          >
-                            <DropdownMenuLabel className="flex items-center space-x-2 px-2 py-1.5 text-sm font-semibold">
-                              {item.icon}
-                              <span>{item.name}</span>
-                            </DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <div className="grid gap-1">
+                              <div className="flex flex-col">
+                                <span className="font-medium">{item.name}</span>
+                                <span className="text-xs text-muted-foreground">{item.subItems.length} items</span>
+                              </div>
+                            </div>
+                            <div className="ml-6 space-y-1">
                               {item.subItems.map((subItem, subIdx) => (
-                                <DropdownMenuItem key={`mobile-sub-${subIdx}`} asChild className="px-3 py-2 rounded-md">
+                                <div key={`mobile-sub-${subIdx}`} className="px-3 py-2 rounded-md hover:bg-accent/50 transition-colors">
                                   {subItem.external ? (
                                     <a 
                                       href={subItem.link} 
                                       target="_blank" 
                                       rel="noopener noreferrer"
-                                      className="flex items-center space-x-3 w-full hover:bg-accent/50 rounded-md p-1 transition-colors"
+                                      className="flex items-center space-x-3 w-full"
+                                      onClick={handleMobileMenuClose}
                                     >
-                                      <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10">
+                                      <div className="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10">
                                         {subItem.icon}
                                       </div>
                                       <div className="flex flex-col">
@@ -259,8 +255,12 @@ function NavbarContent({ className }: { className?: string }) {
                                       <ExternalLink className="w-3 h-3 ml-auto text-muted-foreground" />
                                     </a>
                                   ) : (
-                                    <Link href={subItem.link} className="flex items-center space-x-3 w-full hover:bg-accent/50 rounded-md p-1 transition-colors">
-                                      <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10">
+                                    <Link 
+                                      href={subItem.link} 
+                                      className="flex items-center space-x-3 w-full"
+                                      onClick={handleMobileMenuClose}
+                                    >
+                                      <div className="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10">
                                         {subItem.icon}
                                       </div>
                                       <div className="flex flex-col">
@@ -269,14 +269,16 @@ function NavbarContent({ className }: { className?: string }) {
                                       </div>
                                     </Link>
                                   )}
-                                </DropdownMenuItem>
+                                </div>
                               ))}
                             </div>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      ) : (
-                        <DropdownMenuItem asChild className="px-3 py-2 rounded-md">
-                          <Link href={item.link} className="flex items-center space-x-3 w-full hover:bg-accent/50 rounded-md p-1 transition-colors">
+                          </div>
+                        ) : (
+                          <Link 
+                            href={item.link} 
+                            className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-accent/50 transition-colors"
+                            onClick={handleMobileMenuClose}
+                          >
                             <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10">
                               {item.icon}
                             </div>
@@ -285,26 +287,31 @@ function NavbarContent({ className }: { className?: string }) {
                               <span className="text-xs text-muted-foreground">Direct link</span>
                             </div>
                           </Link>
-                        </DropdownMenuItem>
-                      )}
-                      {index < navigationItems.length - 1 && <DropdownMenuSeparator />}
-                    </div>
-                  ))}
+                        )}
+                        {index < navigationItems.length - 1 && (
+                          <div className="border-t border-border my-4" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="border-t border-border mt-6 pt-4">
+                    <Link 
+                      href="/login" 
+                      className="flex items-center space-x-3 px-3 py-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                      onClick={handleMobileMenuClose}
+                    >
+                      <div className="flex items-center justify-center w-8 h-8 rounded-md bg-white/20">
+                        <LogIn className="w-4 h-4" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-medium">Login</span>
+                        <span className="text-xs text-primary-foreground/80">Access your account</span>
+                      </div>
+                    </Link>
+                  </div>
                 </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild className="px-3 py-2 rounded-md">
-                  <Link href="/login" className="flex items-center space-x-3 w-full font-medium hover:bg-accent/50 rounded-md p-1 transition-colors">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10">
-                      <LogIn className="w-4 h-4" />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="font-medium">Login</span>
-                      <span className="text-xs text-muted-foreground">Access your account</span>
-                    </div>
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </DrawerContent>
+            </Drawer>
           </div>
         </MobileNavHeader>
       </MobileNav>

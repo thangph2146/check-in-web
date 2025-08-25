@@ -28,9 +28,8 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground cursor-none`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground`}
       >
-        <SmoothCursor />
         <ThemeProvider>
           <div className="min-h-screen flex flex-col" suppressHydrationWarning>
             <NavbarComponent />
