@@ -1,204 +1,160 @@
 "use client";
-import React, { useState } from "react";
-import { HoveredLink, MenuItem, ProductItem } from "../ui/navbar-menu";
-import { cn } from "@/lib/utils";
+import React, { useState, useEffect } from "react";
 import { ThemeToggle } from "../ui/theme-toggle";
 import Image from "next/image";
-import { useTheme } from "next-themes";
-import { 
-  Drawer, 
-  DrawerContent, 
-  DrawerHeader, 
-  DrawerTitle, 
-  DrawerTrigger 
-} from "../ui/drawer";
-import { Menu as MenuIcon } from "lucide-react";
 import Link from "next/link";
+import { useTheme } from "next-themes";
+import {
+  Navbar,
+  NavBody,
+  NavItems,
+  MobileNav,
+  MobileNavHeader,
+  MobileNavMenu,
+  MobileNavToggle,
+  NavbarButton,
+} from "../ui/resizable-navbar";
 
-export function Navbar({ className }: { className?: string }) {
-  const { resolvedTheme } = useTheme()
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const isDark = resolvedTheme === "dark"
+function NavbarContent({ className }: { className?: string }) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigationItems = [
-    {
-      item: "Services",
-      children: (
-        <div className="flex flex-col space-y-2">
-          <HoveredLink href="/web-dev">Web Development</HoveredLink>
-          <HoveredLink href="/interface-design">Interface Design</HoveredLink>
-          <HoveredLink href="/seo">Search Engine Optimization</HoveredLink>
-          <HoveredLink href="/branding">Branding</HoveredLink>
-        </div>
-      )
-    },
-    {
-      item: "Products",
-      children: (
-        <div className="text-sm grid grid-cols-2 gap-4 p-2 w-[500px]">
-          <ProductItem
-            title="Algochurn"
-            href="https://algochurn.com"
-            src="https://assets.aceternity.com/demos/algochurn.webp"
-            description="Prepare for tech interviews like never before."
-          />
-          <ProductItem
-            title="Tailwind Master Kit"
-            href="https://tailwindmasterkit.com"
-            src="https://assets.aceternity.com/demos/tailwindmasterkit.webp"
-            description="Production ready Tailwind css components for your next project"
-          />
-          <ProductItem
-            title="Moonbeam"
-            href="https://gomoonbeam.com"
-            src="https://assets.aceternity.com/demos/Screenshot+2024-02-21+at+11.51.31%E2%80%AFPM.png"
-            description="Never write from scratch again. Go from idea to blog in minutes."
-          />
-          <ProductItem
-            title="Rogue"
-            href="https://userogue.com"
-            src="https://assets.aceternity.com/demos/Screenshot+2024-02-21+at+11.47.07%E2%80%AFPM.png"
-            description="Respond to government RFPs, RFIs and RFQs 10x faster using AI"
-          />
-        </div>
-      )
-    },
-    {
-      item: "Pricing",
-      children: (
-        <div className="flex flex-col space-y-2">
-          <HoveredLink href="/hobby">Hobby</HoveredLink>
-          <HoveredLink href="/individual">Individual</HoveredLink>
-          <HoveredLink href="/team">Team</HoveredLink>
-          <HoveredLink href="/enterprise">Enterprise</HoveredLink>
-        </div>
-      )
-    }
+    { name: "Services", link: "/services" },
+    { name: "Products", link: "/products" },
+    { name: "Pricing", link: "/pricing" },
+    { name: "Contact", link: "/contact" },
   ];
 
+  const handleItemClick = () => {
+    // Handle navigation item click
+  };
+
+  const handleMobileMenuClose = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   return (
-    <div
-      className={cn("sticky w-full top-4 inset-x-0 max-w-7xl mx-auto z-50 px-4", className)}
-    >
-      <div className="relative rounded-full border border-border bg-card/80 backdrop-blur-sm shadow-lg flex items-center justify-between px-4 md:px-6 lg:px-8 py-0">
-        {/* Logo */}
-        <div className="flex items-center space-x-4">
-          <Link href="/" className="w-16 h-16 flex items-center justify-center">
-            <Image
-              src={isDark ? "/logo-white.png" : "/logo.png"}
-              alt="logo"
-              width={400}
-              height={400}
-              className="w-16 h-16 object-contain"
-            />
-          </Link>
-        </div>
-
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center space-x-6">
-          {navigationItems.map((navItem) => (
-            <MenuItem 
-              key={navItem.item}
-              item={navItem.item}
-            >
-              {navItem.children}
-            </MenuItem>
-          ))}
-        </div>
-
-        {/* Tablet Navigation (Simplified) */}
-        <div className="hidden md:flex lg:hidden items-center space-x-4">
-          {navigationItems.slice(0, 2).map((navItem) => (
-            <MenuItem 
-              key={navItem.item}
-              item={navItem.item}
-            >
-              {navItem.item === "Products" ? (
-                <div className="text-sm p-2 w-[300px]">
-                  <div className="space-y-3">
-                    <ProductItem
-                      title="Algochurn"
-                      href="https://algochurn.com"
-                      src="https://assets.aceternity.com/demos/algochurn.webp"
-                      description="Prepare for tech interviews like never before."
-                    />
-                    <ProductItem
-                      title="Tailwind Master Kit"
-                      href="https://tailwindmasterkit.com"
-                      src="https://assets.aceternity.com/demos/tailwindmasterkit.webp"
-                      description="Production ready Tailwind css components for your next project"
-                    />
-                  </div>
-                </div>
-              ) : (
-                navItem.children
-              )}
-            </MenuItem>
-          ))}
-        </div>
-
-        {/* Right side - Theme Toggle & Mobile Menu */}
+    <Navbar className={className}>
+      {/* Desktop Navigation */}
+      <NavBody>
+        <CustomNavbarLogo />
+        <NavItems 
+          items={navigationItems} 
+          onItemClick={handleItemClick}
+        />
         <div className="flex items-center space-x-2">
           <ThemeToggle />
-          
-          {/* Mobile Menu using Drawer */}
-          <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-            <DrawerTrigger asChild>
-              <button className="p-2 rounded-lg hover:bg-accent/10 transition-colors lg:hidden">
-                <MenuIcon className="w-5 h-5 text-foreground" />
-              </button>
-            </DrawerTrigger>
-            <DrawerContent className="h-[85vh]">
-              <DrawerHeader>
-                <DrawerTitle className="text-center">Navigation</DrawerTitle>
-              </DrawerHeader>
-              <div className="px-4 pb-4 overflow-y-auto flex-1 space-y-4">
-                {navigationItems.map((navItem) => (
-                  <div key={navItem.item} className="space-y-2">
-                    <h3 className="font-semibold text-foreground text-lg border-b border-border pb-2">
-                      {navItem.item}
-                    </h3>
-                    <div className="pl-4 space-y-1">
-                      {navItem.item === "Services" && (
-                        <>
-                          <HoveredLink href="/web-dev">Web Development</HoveredLink>
-                          <HoveredLink href="/interface-design">Interface Design</HoveredLink>
-                          <HoveredLink href="/seo">Search Engine Optimization</HoveredLink>
-                          <HoveredLink href="/branding">Branding</HoveredLink>
-                        </>
-                      )}
-                      {navItem.item === "Products" && (
-                        <div className="space-y-3">
-                          <ProductItem
-                            title="Algochurn"
-                            href="https://algochurn.com"
-                            src="https://assets.aceternity.com/demos/algochurn.webp"
-                            description="Prepare for tech interviews like never before."
-                          />
-                          <ProductItem
-                            title="Tailwind Master Kit"
-                            href="https://tailwindmasterkit.com"
-                            src="https://assets.aceternity.com/demos/tailwindmasterkit.webp"
-                            description="Production ready Tailwind css components for your next project"
-                          />
-                        </div>
-                      )}
-                      {navItem.item === "Pricing" && (
-                        <>
-                          <HoveredLink href="/hobby">Hobby</HoveredLink>
-                          <HoveredLink href="/individual">Individual</HoveredLink>
-                          <HoveredLink href="/team">Team</HoveredLink>
-                          <HoveredLink href="/enterprise">Enterprise</HoveredLink>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </DrawerContent>
-          </Drawer>
+          <NavbarButton href="/login" variant="primary">
+            Login
+          </NavbarButton>
         </div>
-      </div>
-    </div>
+      </NavBody>
+
+      {/* Mobile Navigation */}
+      <MobileNav>
+        <MobileNavHeader>
+          <CustomNavbarLogo />
+          <div className="flex items-center space-x-2">
+            <ThemeToggle />
+            <MobileNavToggle
+              isOpen={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            />
+          </div>
+        </MobileNavHeader>
+        
+        <MobileNavMenu
+          isOpen={isMobileMenuOpen}
+          onClose={handleMobileMenuClose}
+        >
+          {navigationItems.map((item, index) => (
+            <a
+              key={index}
+              href={item.link}
+              className="block w-full px-4 py-2 text-sm font-medium text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100"
+              onClick={handleMobileMenuClose}
+            >
+              {item.name}
+            </a>
+          ))}
+          <div className="mt-4 pt-4 border-t border-neutral-200 dark:border-neutral-800">
+            <NavbarButton 
+              href="/login" 
+              variant="primary" 
+              className="w-full"
+              onClick={handleMobileMenuClose}
+            >
+              Login
+            </NavbarButton>
+          </div>
+        </MobileNavMenu>
+      </MobileNav>
+    </Navbar>
   );
 }
+
+// Wrapper component để xử lý hydration
+export function NavbarComponent({ className }: { className?: string }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Render placeholder khi chưa mounted để tránh hydration mismatch
+  if (!mounted) {
+    return (
+      <div className="sticky inset-x-0 top-0 z-40 w-full">
+        <div className="relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex dark:bg-transparent">
+          <div className="w-20 h-20 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
+          <div className="flex items-center space-x-2">
+            <div className="w-16 h-8 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
+            <div className="w-20 h-8 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return <NavbarContent className={className} />;
+}
+
+// Custom NavbarLogo component to use your logo
+const CustomNavbarLogo = () => {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Prevent hydration mismatch by not rendering theme-dependent content until mounted
+  if (!mounted) {
+    return (
+      <Link
+        href="/"
+        className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-0 text-sm font-normal text-black dark:text-white"
+      >
+        <div className="w-20 h-20 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
+      </Link>
+    );
+  }
+
+  const isDark = resolvedTheme === "dark";
+
+  return (
+    <Link
+      href="/"
+      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-0 text-sm font-normal text-black dark:text-white"
+    >
+      <Image
+        src={isDark ? "/logo-white.png" : "/logo.png"}
+        alt="logo"
+        width={100}
+        height={100}
+        className="w-16 h-16 object-contain"
+        priority
+      />
+    </Link>
+  );
+};
