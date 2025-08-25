@@ -12,18 +12,10 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
 
-const transition = {
-  type: "spring" as const,
-  mass: 0.5,
-  damping: 11.5,
-  stiffness: 100,
-  restDelta: 0.001,
-  restSpeed: 0.001,
-};
+
 
 // Mobile Menu Item Component
 const MobileMenuItem = ({ item, children }: { item: string; children?: React.ReactNode }) => {

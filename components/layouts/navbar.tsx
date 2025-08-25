@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { ThemeToggle } from "../ui/theme-toggle";
+import { AnimatedThemeToggler } from "../magicui/animated-theme-toggler";
 import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "next-themes";
@@ -26,24 +26,23 @@ import {
   MobileNavHeader,
   NavbarButton,
 } from "../ui/resizable-navbar";
-import { 
-  ChevronDown, 
-  Menu, 
-  Code, 
-  Palette, 
-  Search, 
-  Brush, 
+import {
+  ChevronDown,
+  Menu,
+  Code,
+  Palette,
+  Search,
+  Brush,
   ExternalLink,
   Package,
   DollarSign,
   Users,
   Building,
   Home,
-  Mail,
   Settings,
   User,
   LogIn,
-  X
+  X,
 } from "lucide-react";
 
 interface NavigationItem {
@@ -62,38 +61,90 @@ function NavbarContent({ className }: { className?: string }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigationItems: NavigationItem[] = [
-    { 
-      name: "Services", 
+    {
+      name: "Services",
       link: "/services",
       icon: <Settings className="w-4 h-4" />,
       subItems: [
-        { name: "Web Development", link: "/services/web-dev", icon: <Code className="w-4 h-4" /> },
-        { name: "Interface Design", link: "/services/interface-design", icon: <Palette className="w-4 h-4" /> },
-        { name: "SEO", link: "/services/seo", icon: <Search className="w-4 h-4" /> },
-        { name: "Branding", link: "/services/branding", icon: <Brush className="w-4 h-4" /> },
-      ]
+        {
+          name: "Web Development",
+          link: "/services/web-dev",
+          icon: <Code className="w-4 h-4" />,
+        },
+        {
+          name: "Interface Design",
+          link: "/services/interface-design",
+          icon: <Palette className="w-4 h-4" />,
+        },
+        {
+          name: "SEO",
+          link: "/services/seo",
+          icon: <Search className="w-4 h-4" />,
+        },
+        {
+          name: "Branding",
+          link: "/services/branding",
+          icon: <Brush className="w-4 h-4" />,
+        },
+      ],
     },
-    { 
-      name: "Products", 
+    {
+      name: "Products",
       link: "/products",
       icon: <Package className="w-4 h-4" />,
       subItems: [
-        { name: "Algochurn", link: "https://algochurn.com", icon: <Code className="w-4 h-4" />, external: true },
-        { name: "Tailwind Master Kit", link: "https://tailwindmasterkit.com", icon: <Palette className="w-4 h-4" />, external: true },
-        { name: "Moonbeam", link: "https://gomoonbeam.com", icon: <Brush className="w-4 h-4" />, external: true },
-        { name: "Rogue", link: "https://userogue.com", icon: <Building className="w-4 h-4" />, external: true },
-      ]
+        {
+          name: "Algochurn",
+          link: "https://algochurn.com",
+          icon: <Code className="w-4 h-4" />,
+          external: true,
+        },
+        {
+          name: "Tailwind Master Kit",
+          link: "https://tailwindmasterkit.com",
+          icon: <Palette className="w-4 h-4" />,
+          external: true,
+        },
+        {
+          name: "Moonbeam",
+          link: "https://gomoonbeam.com",
+          icon: <Brush className="w-4 h-4" />,
+          external: true,
+        },
+        {
+          name: "Rogue",
+          link: "https://userogue.com",
+          icon: <Building className="w-4 h-4" />,
+          external: true,
+        },
+      ],
     },
-    { 
-      name: "Pricing", 
+    {
+      name: "Pricing",
       link: "/pricing",
       icon: <DollarSign className="w-4 h-4" />,
       subItems: [
-        { name: "Hobby", link: "/pricing/hobby", icon: <Home className="w-4 h-4" /> },
-        { name: "Individual", link: "/pricing/individual", icon: <User className="w-4 h-4" /> },
-        { name: "Team", link: "/pricing/team", icon: <Users className="w-4 h-4" /> },
-        { name: "Enterprise", link: "/pricing/enterprise", icon: <Building className="w-4 h-4" /> },
-      ]
+        {
+          name: "Hobby",
+          link: "/pricing/hobby",
+          icon: <Home className="w-4 h-4" />,
+        },
+        {
+          name: "Individual",
+          link: "/pricing/individual",
+          icon: <User className="w-4 h-4" />,
+        },
+        {
+          name: "Team",
+          link: "/pricing/team",
+          icon: <Users className="w-4 h-4" />,
+        },
+        {
+          name: "Enterprise",
+          link: "/pricing/enterprise",
+          icon: <Building className="w-4 h-4" />,
+        },
+      ],
     },
   ];
 
@@ -124,8 +175,8 @@ function NavbarContent({ className }: { className?: string }) {
                       <ChevronDown className="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" />
                     </button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent 
-                    align="center" 
+                  <DropdownMenuContent
+                    align="center"
                     className="w-72 mt-2 p-2"
                     sideOffset={8}
                   >
@@ -136,11 +187,15 @@ function NavbarContent({ className }: { className?: string }) {
                     <DropdownMenuSeparator />
                     <div className="grid gap-1">
                       {item.subItems.map((subItem, subIdx) => (
-                        <DropdownMenuItem key={`sub-item-${subIdx}`} asChild className="px-3 py-2 rounded-md">
+                        <DropdownMenuItem
+                          key={`sub-item-${subIdx}`}
+                          asChild
+                          className="px-3 py-2 rounded-md"
+                        >
                           {subItem.external ? (
-                            <a 
-                              href={subItem.link} 
-                              target="_blank" 
+                            <a
+                              href={subItem.link}
+                              target="_blank"
                               rel="noopener noreferrer"
                               className="flex items-center space-x-3 w-full hover:bg-accent/50 rounded-md p-1 transition-colors"
                             >
@@ -148,19 +203,30 @@ function NavbarContent({ className }: { className?: string }) {
                                 {subItem.icon}
                               </div>
                               <div className="flex flex-col">
-                                <span className="font-medium">{subItem.name}</span>
-                                <span className="text-xs text-muted-foreground">External link</span>
+                                <span className="font-medium">
+                                  {subItem.name}
+                                </span>
+                                <span className="text-xs text-muted-foreground">
+                                  External link
+                                </span>
                               </div>
                               <ExternalLink className="w-3 h-3 ml-auto text-muted-foreground" />
                             </a>
                           ) : (
-                            <Link href={subItem.link} className="flex items-center space-x-3 w-full hover:bg-accent/50 rounded-md p-1 transition-colors">
+                            <Link
+                              href={subItem.link}
+                              className="flex items-center space-x-3 w-full hover:bg-accent/50 rounded-md p-1 transition-colors"
+                            >
                               <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10">
                                 {subItem.icon}
                               </div>
                               <div className="flex flex-col">
-                                <span className="font-medium">{subItem.name}</span>
-                                <span className="text-xs text-muted-foreground">Internal page</span>
+                                <span className="font-medium">
+                                  {subItem.name}
+                                </span>
+                                <span className="text-xs text-muted-foreground">
+                                  Internal page
+                                </span>
                               </div>
                             </Link>
                           )}
@@ -185,8 +251,12 @@ function NavbarContent({ className }: { className?: string }) {
           ))}
         </div>
         <div className="flex items-center space-x-2">
-          <ThemeToggle />
-          <NavbarButton href="/login" variant="primary" className="flex items-center space-x-2 hover:scale-105 transition-transform duration-200">
+          <AnimatedThemeToggler className="p-2 rounded-lg hover:bg-accent/10 transition-colors relative z-20" />
+          <NavbarButton
+            href="/login"
+            variant="primary"
+            className="flex items-center space-x-2 hover:scale-105 transition-transform duration-200"
+          >
             <div className="flex items-center justify-center w-5 h-5 rounded-md bg-white/20">
               <LogIn className="w-4 h-4" />
             </div>
@@ -200,7 +270,7 @@ function NavbarContent({ className }: { className?: string }) {
         <MobileNavHeader>
           <CustomNavbarLogo />
           <div className="flex items-center space-x-2">
-            <ThemeToggle />
+            <AnimatedThemeToggler className="p-2 rounded-lg hover:bg-accent/10 transition-colors relative z-20" />
             <Drawer open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <DrawerTrigger asChild>
                 <button className="p-2 rounded-lg hover:bg-accent/10 transition-colors lg:hidden">
@@ -210,8 +280,10 @@ function NavbarContent({ className }: { className?: string }) {
               <DrawerContent className="h-[85vh]">
                 <DrawerHeader className="border-b border-border">
                   <div className="flex items-center justify-between">
-                    <DrawerTitle className="text-lg font-semibold">Navigation Menu</DrawerTitle>
-                    <button 
+                    <DrawerTitle className="text-lg font-semibold">
+                      Navigation Menu
+                    </DrawerTitle>
+                    <button
                       onClick={handleMobileMenuClose}
                       className="p-2 rounded-lg hover:bg-accent/10 transition-colors"
                     >
@@ -231,16 +303,21 @@ function NavbarContent({ className }: { className?: string }) {
                               </div>
                               <div className="flex flex-col">
                                 <span className="font-medium">{item.name}</span>
-                                <span className="text-xs text-muted-foreground">{item.subItems.length} items</span>
+                                <span className="text-xs text-muted-foreground">
+                                  {item.subItems.length} items
+                                </span>
                               </div>
                             </div>
                             <div className="ml-6 space-y-1">
                               {item.subItems.map((subItem, subIdx) => (
-                                <div key={`mobile-sub-${subIdx}`} className="px-3 py-2 rounded-md hover:bg-accent/50 transition-colors">
+                                <div
+                                  key={`mobile-sub-${subIdx}`}
+                                  className="px-3 py-2 rounded-md hover:bg-accent/50 transition-colors"
+                                >
                                   {subItem.external ? (
-                                    <a 
-                                      href={subItem.link} 
-                                      target="_blank" 
+                                    <a
+                                      href={subItem.link}
+                                      target="_blank"
                                       rel="noopener noreferrer"
                                       className="flex items-center space-x-3 w-full"
                                       onClick={handleMobileMenuClose}
@@ -249,14 +326,18 @@ function NavbarContent({ className }: { className?: string }) {
                                         {subItem.icon}
                                       </div>
                                       <div className="flex flex-col">
-                                        <span className="font-medium">{subItem.name}</span>
-                                        <span className="text-xs text-muted-foreground">External link</span>
+                                        <span className="font-medium">
+                                          {subItem.name}
+                                        </span>
+                                        <span className="text-xs text-muted-foreground">
+                                          External link
+                                        </span>
                                       </div>
                                       <ExternalLink className="w-3 h-3 ml-auto text-muted-foreground" />
                                     </a>
                                   ) : (
-                                    <Link 
-                                      href={subItem.link} 
+                                    <Link
+                                      href={subItem.link}
                                       className="flex items-center space-x-3 w-full"
                                       onClick={handleMobileMenuClose}
                                     >
@@ -264,8 +345,12 @@ function NavbarContent({ className }: { className?: string }) {
                                         {subItem.icon}
                                       </div>
                                       <div className="flex flex-col">
-                                        <span className="font-medium">{subItem.name}</span>
-                                        <span className="text-xs text-muted-foreground">Internal page</span>
+                                        <span className="font-medium">
+                                          {subItem.name}
+                                        </span>
+                                        <span className="text-xs text-muted-foreground">
+                                          Internal page
+                                        </span>
                                       </div>
                                     </Link>
                                   )}
@@ -274,8 +359,8 @@ function NavbarContent({ className }: { className?: string }) {
                             </div>
                           </div>
                         ) : (
-                          <Link 
-                            href={item.link} 
+                          <Link
+                            href={item.link}
                             className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-accent/50 transition-colors"
                             onClick={handleMobileMenuClose}
                           >
@@ -284,7 +369,9 @@ function NavbarContent({ className }: { className?: string }) {
                             </div>
                             <div className="flex flex-col">
                               <span className="font-medium">{item.name}</span>
-                              <span className="text-xs text-muted-foreground">Direct link</span>
+                              <span className="text-xs text-muted-foreground">
+                                Direct link
+                              </span>
                             </div>
                           </Link>
                         )}
@@ -295,8 +382,8 @@ function NavbarContent({ className }: { className?: string }) {
                     ))}
                   </div>
                   <div className="border-t border-border mt-6 pt-4">
-                    <Link 
-                      href="/login" 
+                    <Link
+                      href="/login"
                       className="flex items-center space-x-3 px-3 py-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
                       onClick={handleMobileMenuClose}
                     >
@@ -330,12 +417,23 @@ export function NavbarComponent({ className }: { className?: string }) {
   // Render placeholder khi chưa mounted để tránh hydration mismatch
   if (!mounted) {
     return (
-      <div className="sticky inset-x-0 top-0 z-40 w-full">
+      <div className="fixed inset-x-0 top-0 z-40 w-full bg-background/80 backdrop-blur-sm">
+        {/* Desktop placeholder */}
         <div className="relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex dark:bg-transparent">
           <div className="w-20 h-20 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
           <div className="flex items-center space-x-2">
             <div className="w-16 h-8 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
             <div className="w-20 h-8 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
+          </div>
+        </div>
+        {/* Mobile placeholder */}
+        <div className="fixed top-0 z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-0 lg:hidden">
+          <div className="flex w-full flex-row items-center justify-between px-4 py-2">
+            <div className="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
+              <div className="w-8 h-8 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
+            </div>
           </div>
         </div>
       </div>
