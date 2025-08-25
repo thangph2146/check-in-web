@@ -225,7 +225,7 @@ function NavbarContent({ className }: { className?: string }) {
                       <div key={`mobile-item-${index}`} className="space-y-2">
                         {item.subItems ? (
                           <div className="space-y-2">
-                            <div className="flex items-center space-x-3 px-3 py-2 rounded-lg bg-accent/50">
+                            <div className="flex items-center space-x-3 px-3 py-2 rounded-lg">
                               <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10">
                                 {item.icon}
                               </div>
@@ -301,11 +301,11 @@ function NavbarContent({ className }: { className?: string }) {
                       onClick={handleMobileMenuClose}
                     >
                       <div className="flex items-center justify-center w-8 h-8 rounded-md bg-white/20">
-                        <LogIn className="w-4 h-4" />
+                        <LogIn className="w-4 h-4 text-white" />
                       </div>
-                      <div className="flex flex-col">
+                      <div className="flex flex-col text-white">
                         <span className="font-medium">Login</span>
-                        <span className="text-xs text-primary-foreground/80">Access your account</span>
+                        <span className="text-xs">Access your account</span>
                       </div>
                     </Link>
                   </div>
