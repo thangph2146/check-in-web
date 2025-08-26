@@ -143,7 +143,7 @@ function ListEvent() {
             <ScrollProgress className="top-0" />
             
             {/* Title */}
-            <div className="text-center mb-16">
+            <div className="text-center">
                 <SparklesText
                     className="text-4xl md:text-6xl font-bold text-foreground mb-4"
                     colors={{ first: "var(--primary)", second: "var(--secondary)" }}
@@ -152,7 +152,7 @@ function ListEvent() {
                     Sự Kiện Nổi Bật
                 </SparklesText>
                 <TypingAnimation
-                    className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8"
+                    className="text-xl text-muted-foreground max-w-2xl mx-auto"
                     duration={50}
                     delay={1000}
                     startOnView={true}
@@ -161,52 +161,18 @@ function ListEvent() {
                 </TypingAnimation>
                 
                 {/* Category Marquee */}
-                <div className="mb-12">
                     <Marquee className="[--duration:20s]" pauseOnHover>
                         {categories.map((category, index) => (
                             <Button
                                 key={index}
                                 variant={selectedCategory === category ? "default" : "outline"}
-                                className="mx-2 rounded-full text-white"
+                                className={`mx-2 rounded-full ${selectedCategory === category ? "text-white" : ""}`}
                                 onClick={() => setSelectedCategory(category)}
                             >
                                 {category}
                             </Button>
                         ))}
                     </Marquee>
-                </div>
-            </div>
-
-            {/* Stats Section */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-                <Card className="text-center p-6">
-                    <div className="flex items-center justify-center mb-2">
-                        <Users className="h-8 w-8 text-primary" />
-                    </div>
-                    <CardTitle className="text-2xl font-bold text-primary">3,450+</CardTitle>
-                    <p className="text-muted-foreground">Người tham gia</p>
-                </Card>
-                <Card className="text-center p-6">
-                    <div className="flex items-center justify-center mb-2">
-                        <Calendar className="h-8 w-8 text-primary" />
-                    </div>
-                    <CardTitle className="text-2xl font-bold text-primary">150+</CardTitle>
-                    <p className="text-muted-foreground">Sự kiện mỗi năm</p>
-                </Card>
-                <Card className="text-center p-6">
-                    <div className="flex items-center justify-center mb-2">
-                        <Star className="h-8 w-8 text-primary" />
-                    </div>
-                    <CardTitle className="text-2xl font-bold text-primary">4.9/5</CardTitle>
-                    <p className="text-muted-foreground">Đánh giá trung bình</p>
-                </Card>
-                <Card className="text-center p-6">
-                    <div className="flex items-center justify-center mb-2">
-                        <TrendingUp className="h-8 w-8 text-primary" />
-                    </div>
-                    <CardTitle className="text-2xl font-bold text-primary">98%</CardTitle>
-                    <p className="text-muted-foreground">Tỷ lệ hài lòng</p>
-                </Card>
             </div>
 
             {/* Events List */}
@@ -234,7 +200,7 @@ function ListEvent() {
                                             </div>
                                         )}
                                         <div className="absolute top-4 right-4">
-                                            <Badge variant="secondary" className="bg-background/90">
+                                            <Badge variant="secondary">
                                                 <Users className="h-3 w-3 mr-1" />
                                                 {event.attendees}
                                             </Badge>
