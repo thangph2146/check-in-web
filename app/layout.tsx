@@ -28,11 +28,12 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground overflow-x-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground pt-0 overflow-x-hidden`}
       >
         <ThemeProvider>
+
           <ScrollArea className="relative min-h-screen flex flex-col" suppressHydrationWarning>
-            <NavbarComponent />
+          <NavbarComponent />
 
             {/* Main content */}
             <main className="flex-1">
