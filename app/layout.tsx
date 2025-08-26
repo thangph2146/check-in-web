@@ -31,12 +31,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground pt-0 overflow-x-hidden`}
       >
         <ThemeProvider>
-
           <ScrollArea className="relative min-h-screen flex flex-col" suppressHydrationWarning>
           <NavbarComponent />
-
             {/* Main content */}
-            <main className="flex-1">
+            <main className="flex-1 mt-18">
               {children}
             </main>
           </ScrollArea>
