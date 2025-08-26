@@ -4,6 +4,24 @@ import React, { useEffect, useState } from 'react';
 import { CardContainer, CardBody, CardItem } from '@/components/ui/3d-card';
 import { SparklesText } from '@/components/magicui/sparkles-text';
 import { TypingAnimation } from '@/components/magicui/typing-animation';
+import { Marquee } from '@/components/magicui/marquee';
+import { AnimatedList } from '@/components/magicui/animated-list';
+import { ShimmerButton } from '@/components/magicui/shimmer-button';
+import { ScrollProgress } from '@/components/magicui/scroll-progress';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { 
+    Calendar, 
+    MapPin, 
+    Users, 
+    Clock, 
+    Star, 
+    TrendingUp,
+    ArrowRight,
+    Play,
+    Zap
+} from 'lucide-react';
 
 interface Event {
     id: number;
@@ -14,11 +32,14 @@ interface Event {
     image: string;
     category: string;
     attendees: number;
+    price?: string;
+    featured?: boolean;
 }
 
 function ListEvent() {
     const [events, setEvents] = useState<Event[]>([]);
     const [loading, setLoading] = useState(true);
+    const [selectedCategory, setSelectedCategory] = useState<string>('Tất cả');
 
     useEffect(() => {
         // Tạo danh sách sự kiện tạm thời từ thông tin trên mạng
@@ -31,7 +52,9 @@ function ListEvent() {
                 location: "Trung tâm Hội nghị Quốc gia, Hà Nội",
                 image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=300&fit=crop",
                 category: "Công nghệ",
-                attendees: 1200
+                attendees: 1200,
+                price: "Miễn phí",
+                featured: true
             },
             {
                 id: 2,
@@ -41,7 +64,8 @@ function ListEvent() {
                 location: "Saigon Innovation Hub, TP.HCM",
                 image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop",
                 category: "Khởi nghiệp",
-                attendees: 500
+                attendees: 500,
+                price: "500.000 VND"
             },
             {
                 id: 3,
@@ -51,7 +75,8 @@ function ListEvent() {
                 location: "FPT University, TP.HCM",
                 image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=300&fit=crop",
                 category: "Thiết kế",
-                attendees: 200
+                attendees: 200,
+                price: "300.000 VND"
             },
             {
                 id: 4,
@@ -61,7 +86,9 @@ function ListEvent() {
                 location: "InterContinental Hanoi, Hà Nội",
                 image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop",
                 category: "Marketing",
-                attendees: 800
+                attendees: 800,
+                price: "800.000 VND",
+                featured: true
             },
             {
                 id: 5,
@@ -71,7 +98,8 @@ function ListEvent() {
                 location: "Viettel Tower, Hà Nội",
                 image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop",
                 category: "AI/ML",
-                attendees: 150
+                attendees: 150,
+                price: "Miễn phí"
             },
             {
                 id: 6,
@@ -81,7 +109,8 @@ function ListEvent() {
                 location: "Grand Plaza, TP.HCM",
                 image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop",
                 category: "Blockchain",
-                attendees: 600
+                attendees: 600,
+                price: "1.200.000 VND"
             }
         ];
 
@@ -91,6 +120,12 @@ function ListEvent() {
             setLoading(false);
         }, 1000);
     }, []);
+
+    const categories = ['Tất cả', 'Công nghệ', 'Khởi nghiệp', 'Thiết kế', 'Marketing', 'AI/ML', 'Blockchain'];
+    
+    const filteredEvents = selectedCategory === 'Tất cả' 
+        ? events 
+        : events.filter(event => event.category === selectedCategory);
 
     if (loading) {
         return (
@@ -104,84 +139,175 @@ function ListEvent() {
     }
 
     return (
-        <section className="container mx-auto px-4 py-20">
-                    {/* Title */}
-        <div className="text-center mb-16">
-            <SparklesText 
-                className="text-4xl md:text-6xl font-bold text-foreground mb-4"
-                colors={{ first: "var(--primary)", second: "var(--secondary)" }}
-                sparklesCount={15}
-            >
-                Sự Kiện Nổi Bật
-            </SparklesText>
-            <TypingAnimation 
-                className="text-xl text-muted-foreground max-w-2xl mx-auto"
-                duration={50}
-                delay={1000}
-                startOnView={true}
-            >
-                Khám phá các sự kiện công nghệ, khởi nghiệp và đổi mới sáng tạo hàng đầu
-            </TypingAnimation>
-        </div>
-            {/* List Event */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {events.map((event) => (
-                    <CardContainer key={event.id} className="w-full">
-                        <CardBody className="w-full">
-                            <CardItem
-                                translateZ="100"
-                                className="w-full bg-card border border-border rounded-xl shadow-2xl overflow-hidden"
+        <section className="container mx-auto px-4 py-20 relative">
+            <ScrollProgress className="top-0" />
+            
+            {/* Title */}
+            <div className="text-center mb-16">
+                <SparklesText
+                    className="text-4xl md:text-6xl font-bold text-foreground mb-4"
+                    colors={{ first: "var(--primary)", second: "var(--secondary)" }}
+                    sparklesCount={15}
+                >
+                    Sự Kiện Nổi Bật
+                </SparklesText>
+                <TypingAnimation
+                    className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8"
+                    duration={50}
+                    delay={1000}
+                    startOnView={true}
+                >
+                    Khám phá các sự kiện công nghệ, khởi nghiệp và đổi mới sáng tạo hàng đầu
+                </TypingAnimation>
+                
+                {/* Category Marquee */}
+                <div className="mb-12">
+                    <Marquee className="[--duration:20s]" pauseOnHover>
+                        {categories.map((category, index) => (
+                            <Button
+                                key={index}
+                                variant={selectedCategory === category ? "default" : "outline"}
+                                className="mx-2 rounded-full text-white"
+                                onClick={() => setSelectedCategory(category)}
                             >
-                                <div className="relative">
-                                    <img
-                                        src={event.image}
-                                        alt={event.title}
-                                        className="w-full h-48 object-cover"
-                                    />
-                                    <div className="absolute top-4 left-4">
-                                        <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium">
-                                            {event.category}
-                                        </span>
-                                    </div>
-                                    <div className="absolute top-4 right-4">
-                                        <span className="bg-card/90 text-card-foreground px-2 py-1 rounded text-xs font-medium">
-                                            {event.attendees} người tham gia
-                                        </span>
-                                    </div>
-                                </div>
+                                {category}
+                            </Button>
+                        ))}
+                    </Marquee>
+                </div>
+            </div>
 
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold text-card-foreground mb-2">
-                                        {event.title}
-                                    </h3>
-                                    <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
-                                        {event.description}
-                                    </p>
+            {/* Stats Section */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+                <Card className="text-center p-6">
+                    <div className="flex items-center justify-center mb-2">
+                        <Users className="h-8 w-8 text-primary" />
+                    </div>
+                    <CardTitle className="text-2xl font-bold text-primary">3,450+</CardTitle>
+                    <p className="text-muted-foreground">Người tham gia</p>
+                </Card>
+                <Card className="text-center p-6">
+                    <div className="flex items-center justify-center mb-2">
+                        <Calendar className="h-8 w-8 text-primary" />
+                    </div>
+                    <CardTitle className="text-2xl font-bold text-primary">150+</CardTitle>
+                    <p className="text-muted-foreground">Sự kiện mỗi năm</p>
+                </Card>
+                <Card className="text-center p-6">
+                    <div className="flex items-center justify-center mb-2">
+                        <Star className="h-8 w-8 text-primary" />
+                    </div>
+                    <CardTitle className="text-2xl font-bold text-primary">4.9/5</CardTitle>
+                    <p className="text-muted-foreground">Đánh giá trung bình</p>
+                </Card>
+                <Card className="text-center p-6">
+                    <div className="flex items-center justify-center mb-2">
+                        <TrendingUp className="h-8 w-8 text-primary" />
+                    </div>
+                    <CardTitle className="text-2xl font-bold text-primary">98%</CardTitle>
+                    <p className="text-muted-foreground">Tỷ lệ hài lòng</p>
+                </Card>
+            </div>
 
-                                    <div className="space-y-2 mb-4">
-                                        <div className="flex items-center text-sm text-muted-foreground">
-                                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                            </svg>
-                                            {event.date}
+            {/* Events List */}
+            <AnimatedList className="mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {filteredEvents.map((event) => (
+                        <CardContainer key={event.id} className="w-full">
+                            <CardBody className="w-full">
+                                <CardItem
+                                    translateZ="100"
+                                    className="w-full bg-card border border-border rounded-xl shadow-2xl overflow-hidden group hover:shadow-3xl transition-all duration-300"
+                                >
+                                    <div className="relative">
+                                        <img
+                                            src={event.image}
+                                            alt={event.title}
+                                            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                                        />
+                                        {event.featured && (
+                                            <div className="absolute top-4 left-4">
+                                                <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-0">
+                                                    <Star className="h-3 w-3 mr-1" />
+                                                    Nổi bật
+                                                </Badge>
+                                            </div>
+                                        )}
+                                        <div className="absolute top-4 right-4">
+                                            <Badge variant="secondary" className="bg-background/90">
+                                                <Users className="h-3 w-3 mr-1" />
+                                                {event.attendees}
+                                            </Badge>
                                         </div>
-                                        <div className="flex items-center text-sm text-muted-foreground">
-                                            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            </svg>
-                                            {event.location}
+                                        <div className="absolute bottom-4 left-4">
+                                            <Badge variant="outline" className="bg-background/90">
+                                                {event.price}
+                                            </Badge>
                                         </div>
                                     </div>
 
-                                                                         <button className="w-full bg-primary text-primary-foreground py-3 px-4 rounded-lg font-medium hover:bg-primary/90 transition-all duration-200 transform hover:scale-105">
-                                         Đăng ký tham gia
-                                     </button>
-                                </div>
-                            </CardItem>
-                        </CardBody>
-                    </CardContainer>
-                ))}
+                                    <CardContent className="p-6">
+                                        <CardHeader className="p-0 mb-4">
+                                            <CardTitle className="text-xl font-bold text-card-foreground mb-2 line-clamp-2">
+                                                {event.title}
+                                            </CardTitle>
+                                            <p className="text-muted-foreground text-sm line-clamp-3">
+                                                {event.description}
+                                            </p>
+                                        </CardHeader>
+
+                                        <div className="space-y-3 mb-6">
+                                            <div className="flex items-center text-sm text-muted-foreground">
+                                                <Calendar className="w-4 h-4 mr-2" />
+                                                {event.date}
+                                            </div>
+                                            <div className="flex items-center text-sm text-muted-foreground">
+                                                <MapPin className="w-4 h-4 mr-2" />
+                                                {event.location}
+                                            </div>
+                                            <div className="flex items-center text-sm text-muted-foreground">
+                                                <Clock className="w-4 h-4 mr-2" />
+                                                {event.attendees} người tham gia
+                                            </div>
+                                        </div>
+
+                                        <div className="flex gap-2">
+                                            <ShimmerButton className="flex-1">
+                                                <Zap className="h-4 w-4 mr-2 text-white" />
+                                                <span className="text-white">Đăng ký ngay</span>
+                                            </ShimmerButton>
+                                            <Button variant="outline" size="icon" className="px-6 py-6">
+                                                <ArrowRight className="h-4 w-4" />
+                                            </Button>
+                                        </div>
+                                    </CardContent>
+                                </CardItem>
+                            </CardBody>
+                        </CardContainer>
+                    ))}
+                </div>
+            </AnimatedList>
+
+            {/* Call to Action */}
+            <div className="text-center mt-16">
+                <Card className="p-8 bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20">
+                    <CardContent className="p-0">
+                        <h3 className="text-2xl font-bold mb-4">Không tìm thấy sự kiện phù hợp?</h3>
+                        <p className="text-muted-foreground mb-6">
+                            Đăng ký nhận thông báo để không bỏ lỡ những sự kiện mới nhất
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <ShimmerButton>
+                                <Play className="h-4 w-4 mr-2 text-white" />
+                                <span className="text-white">Xem tất cả sự kiện</span>
+                            </ShimmerButton>
+                            <Button variant="outline" className="px-4 py-6">
+                                <Calendar className="h-4 w-4 mr-2" />
+                                Đăng ký nhận thông báo
+                            </Button>
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
         </section>
     );
