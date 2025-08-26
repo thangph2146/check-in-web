@@ -196,10 +196,10 @@ function ListEvent() {
 
             {/* Events List */}
             <AnimatedList className="mb-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredEvents.map((event) => (
                         <div key={event.id} className="w-full">
-                            <CardContainer className="w-full" containerClassName="py-4 sm:py-6">
+                            <CardContainer className="w-full" containerClassName="py-2">
                                 <CardBody className="w-full h-full">
                                     <CardItem
                                         translateZ="100"

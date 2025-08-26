@@ -93,7 +93,7 @@ function FAQ() {
           </SparklesText>
           
           <TypingAnimation 
-            className="text-responsive text-muted-foreground max-w-3xl mx-auto px-4"
+            className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-3xl mx-auto px-4"
             duration={90}
             delay={3000}
             startOnView={true}
@@ -179,7 +179,7 @@ function FAQ() {
                 <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-foreground">
                   Không tìm thấy câu trả lời?
                 </h3>
-                <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8 px-2">
+                <p className="font-bold text-sm sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8 px-2">
                   Đội ngũ hỗ trợ của chúng tôi luôn sẵn sàng giúp đỡ bạn. Liên hệ ngay để được tư vấn chi tiết.
                 </p>
               </div>
