@@ -34,7 +34,7 @@ export default function RootLayout({
           <ScrollArea className="relative" suppressHydrationWarning>
           <NavbarComponent />
             {/* Main content */}
-            <main className="flex-1 mt-18">
+            <main className="max-w-[100vw] flex-1 mt-18">
               {children}
             </main>
           </ScrollArea>

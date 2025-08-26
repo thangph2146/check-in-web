@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { CardContainer, CardBody, CardItem } from '@/components/ui/3d-card';
 import { SparklesText } from '@/components/magicui/sparkles-text';
 import { TypingAnimation } from '@/components/magicui/typing-animation';
@@ -17,7 +18,6 @@ import {
     Users, 
     Clock, 
     Star, 
-    TrendingUp,
     ArrowRight,
     Play,
     Zap
@@ -139,20 +139,20 @@ function ListEvent() {
     }
 
     return (
-        <section className="container mx-auto px-4 py-20 relative">
+        <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 relative">
             <ScrollProgress className="top-0" />
             
             {/* Title */}
-            <div className="text-center">
+            <div className="text-center mb-12 sm:mb-16">
                 <SparklesText
-                    className="text-4xl md:text-6xl font-bold text-foreground mb-4"
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4"
                     colors={{ first: "var(--primary)", second: "var(--secondary)" }}
                     sparklesCount={15}
                 >
                     Sự Kiện Nổi Bật
                 </SparklesText>
                 <TypingAnimation
-                    className="text-xl text-muted-foreground max-w-2xl mx-auto"
+                    className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto px-4"
                     duration={50}
                     delay={1000}
                     startOnView={true}
@@ -160,7 +160,8 @@ function ListEvent() {
                     Khám phá các sự kiện công nghệ, khởi nghiệp và đổi mới sáng tạo hàng đầu
                 </TypingAnimation>
                 
-                {/* Category Marquee */}
+                {/* Category Marquee - Hidden on mobile, scroll horizontally on small screens */}
+                <div className="hidden sm:block">
                     <Marquee className="[--duration:20s]" pauseOnHover>
                         {categories.map((category, index) => (
                             <Button
@@ -173,48 +174,69 @@ function ListEvent() {
                             </Button>
                         ))}
                     </Marquee>
+                </div>
+                
+                {/* Mobile Category Filter */}
+                <div className="sm:hidden mt-6">
+                    <div className="flex gap-2 overflow-x-auto pb-2 px-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                        {categories.map((category, index) => (
+                            <Button
+                                key={index}
+                                variant={selectedCategory === category ? "default" : "outline"}
+                                size="sm"
+                                className={`rounded-full whitespace-nowrap text-xs px-3 py-2 ${selectedCategory === category ? "text-white" : ""}`}
+                                onClick={() => setSelectedCategory(category)}
+                            >
+                                {category}
+                            </Button>
+                        ))}
+                    </div>
+                </div>
             </div>
 
             {/* Events List */}
             <AnimatedList className="mb-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                     {filteredEvents.map((event) => (
-                        <CardContainer key={event.id} className="w-full">
-                            <CardBody className="w-full">
-                                <CardItem
-                                    translateZ="100"
-                                    className="w-full bg-card border border-border rounded-xl shadow-2xl overflow-hidden group hover:shadow-3xl transition-all duration-300"
-                                >
+                        <div key={event.id} className="w-full">
+                            <CardContainer className="w-full" containerClassName="py-4 sm:py-6">
+                                <CardBody className="w-full h-full">
+                                    <CardItem
+                                        translateZ="100"
+                                        className="w-full h-full bg-card border border-border rounded-xl shadow-lg sm:shadow-2xl overflow-hidden group hover:shadow-2xl sm:hover:shadow-3xl transition-all duration-300 flex flex-col"
+                                    >
                                     <div className="relative">
-                                        <img
+                                        <Image
                                             src={event.image}
                                             alt={event.title}
-                                            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                                            width={400}
+                                            height={300}
+                                            className="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                                         />
                                         {event.featured && (
-                                            <div className="absolute top-4 left-4">
-                                                <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-0">
-                                                    <Star className="h-3 w-3 mr-1" />
+                                            <div className="absolute top-3 left-3">
+                                                <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-0 text-xs">
+                                                    <Star className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
                                                     Nổi bật
                                                 </Badge>
                                             </div>
                                         )}
-                                        <div className="absolute top-4 right-4">
-                                            <Badge variant="secondary">
-                                                <Users className="h-3 w-3 mr-1" />
+                                        <div className="absolute top-3 right-3">
+                                            <Badge variant="secondary" className="text-xs">
+                                                <Users className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
                                                 {event.attendees}
                                             </Badge>
                                         </div>
-                                        <div className="absolute bottom-4 left-4">
-                                            <Badge variant="outline" className="bg-background/90">
+                                        <div className="absolute bottom-3 left-3">
+                                            <Badge variant="outline" className="bg-background/90 text-xs">
                                                 {event.price}
                                             </Badge>
                                         </div>
                                     </div>
 
-                                    <CardContent className="p-6">
-                                        <CardHeader className="p-0 mb-4">
-                                            <CardTitle className="text-xl font-bold text-card-foreground mb-2 line-clamp-2">
+                                    <CardContent className="p-4 sm:p-6 flex-1 flex flex-col">
+                                        <CardHeader className="p-0 mb-3 sm:mb-4">
+                                            <CardTitle className="text-lg sm:text-xl font-bold text-card-foreground mb-2 line-clamp-2">
                                                 {event.title}
                                             </CardTitle>
                                             <p className="text-muted-foreground text-sm line-clamp-3">
@@ -222,52 +244,53 @@ function ListEvent() {
                                             </p>
                                         </CardHeader>
 
-                                        <div className="space-y-3 mb-6">
-                                            <div className="flex items-center text-sm text-muted-foreground">
-                                                <Calendar className="w-4 h-4 mr-2" />
-                                                {event.date}
+                                        <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6 flex-1">
+                                            <div className="flex items-center text-xs sm:text-sm text-muted-foreground">
+                                                <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2 flex-shrink-0" />
+                                                <span className="truncate">{event.date}</span>
                                             </div>
-                                            <div className="flex items-center text-sm text-muted-foreground">
-                                                <MapPin className="w-4 h-4 mr-2" />
-                                                {event.location}
+                                            <div className="flex items-center text-xs sm:text-sm text-muted-foreground">
+                                                <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2 flex-shrink-0" />
+                                                <span className="truncate">{event.location}</span>
                                             </div>
-                                            <div className="flex items-center text-sm text-muted-foreground">
-                                                <Clock className="w-4 h-4 mr-2" />
-                                                {event.attendees} người tham gia
+                                            <div className="flex items-center text-xs sm:text-sm text-muted-foreground">
+                                                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2 flex-shrink-0" />
+                                                <span>{event.attendees} người tham gia</span>
                                             </div>
                                         </div>
 
-                                        <div className="flex gap-2">
-                                            <ShimmerButton className="flex-1">
-                                                <Zap className="h-4 w-4 mr-2 text-white" />
+                                        <div className="flex gap-2 mt-auto">
+                                            <ShimmerButton className="flex-1 text-xs sm:text-sm py-2 sm:py-3">
+                                                <Zap className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-2 text-white" />
                                                 <span className="text-white">Đăng ký ngay</span>
                                             </ShimmerButton>
-                                            <Button variant="outline" size="icon" className="px-6 py-6">
-                                                <ArrowRight className="h-4 w-4" />
+                                            <Button variant="outline" size="icon" className="px-3 py-2 sm:px-6 sm:py-6">
+                                                <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                                             </Button>
                                         </div>
                                     </CardContent>
                                 </CardItem>
                             </CardBody>
                         </CardContainer>
+                        </div>
                     ))}
                 </div>
             </AnimatedList>
 
             {/* Call to Action */}
-            <div className="text-center mt-16">
-                <Card className="p-8 bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20">
+            <div className="text-center mt-12 sm:mt-16">
+                <Card className="p-6 sm:p-8 bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20">
                     <CardContent className="p-0">
-                        <h3 className="text-2xl font-bold mb-4">Không tìm thấy sự kiện phù hợp?</h3>
-                        <p className="text-muted-foreground mb-6">
+                        <h3 className="text-xl sm:text-2xl font-bold mb-4">Không tìm thấy sự kiện phù hợp?</h3>
+                        <p className="text-sm sm:text-base text-muted-foreground mb-6 px-2">
                             Đăng ký nhận thông báo để không bỏ lỡ những sự kiện mới nhất
                         </p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <ShimmerButton>
+                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                            <ShimmerButton className="w-full sm:w-auto">
                                 <Play className="h-4 w-4 mr-2 text-white" />
                                 <span className="text-white">Xem tất cả sự kiện</span>
                             </ShimmerButton>
-                            <Button variant="outline" className="px-4 py-6">
+                            <Button variant="outline" className="px-4 py-3 sm:py-6 w-full sm:w-auto">
                                 <Calendar className="h-4 w-4 mr-2" />
                                 Đăng ký nhận thông báo
                             </Button>

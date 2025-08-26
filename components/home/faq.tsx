@@ -12,9 +12,7 @@ import {
   HelpCircle, 
   MessageCircle,
   Mail,
-  Phone,
-  Clock,
-  Zap
+  Phone
 } from 'lucide-react';
 
 function FAQ() {
@@ -83,19 +81,19 @@ function FAQ() {
   };
 
   return (
-    <section className="py-20">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+    <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-background via-muted/20 to-background">
+      <div className="container-responsive">
+        <div className="text-center mb-12 sm:mb-16">
           <SparklesText 
-            className="text-3xl md:text-5xl font-bold text-foreground mb-4"
-            colors={{ first: "var(--primary)", second: "var(--secondary)" }}
-            sparklesCount={10}
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6"
+            colors={{ first: "oklch(0.577 0.245 27.325)", second: "oklch(0.379 0.146 265.522)" }}
+            sparklesCount={12}
           >
             Câu Hỏi Thường Gặp
           </SparklesText>
           
           <TypingAnimation 
-            className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto"
+            className="text-responsive text-muted-foreground max-w-3xl mx-auto px-4"
             duration={90}
             delay={3000}
             startOnView={true}
@@ -105,14 +103,18 @@ function FAQ() {
         </div>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
+        <div className="flex flex-wrap justify-center gap-2 mb-8 sm:mb-12 px-2">
           {categories.map((category) => (
             <Button
               key={category}
               variant={selectedCategory === category ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedCategory(category)}
-              className="rounded-full"
+              className={`rounded-full text-xs sm:text-sm px-3 sm:px-4 py-0 transition-all duration-300 hover:scale-105 ${
+                selectedCategory === category 
+                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25" 
+                  : "hover:bg-primary/10 hover:border-primary/50"
+              }`}
             >
               {category}
             </Button>
@@ -120,39 +122,43 @@ function FAQ() {
         </div>
 
         {/* FAQ Grid */}
-        <div className="max-w-4xl mx-auto space-y-4 mb-16">
+        <div className="max-w-5xl mx-auto space-responsive mb-12 sm:mb-16">
           {filteredFaqs.map((faq, index) => (
-            <Card key={index} className="hover:shadow-lg transition-all duration-300 border-border">
+            <Card 
+              key={index} 
+              className="group hover:shadow-xl transition-all duration-500 border-border/50 hover:border-primary/30 bg-card/80 backdrop-blur-sm hover:bg-card"
+            >
               <CardHeader 
-                className="cursor-pointer pb-4"
                 onClick={() => toggleFAQ(index)}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                      <faq.icon className="w-4 h-4 text-primary" />
+                <div className="flex items-start sm:items-center justify-between gap-3">
+                  <div className="flex items-start sm:items-center space-x-3 flex-1">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-0 group-hover:scale-110 transition-transform duration-300">
+                      <faq.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                     </div>
-                    <CardTitle className="text-lg font-semibold text-foreground">
+                    <CardTitle className="text-sm sm:text-base lg:text-lg font-semibold text-foreground leading-tight group-hover:text-primary transition-colors duration-300">
                       {faq.question}
                     </CardTitle>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Badge variant="secondary" className="text-xs">
+                  <div className="flex items-center space-x-2 flex-shrink-0">
+                    <Badge variant="secondary" className="text-xs bg-secondary/10 text-secondary border-secondary/20">
                       {faq.category}
                     </Badge>
-                    {openIndex === index ? (
-                      <ChevronUp className="w-5 h-5 text-muted-foreground" />
-                    ) : (
-                      <ChevronDown className="w-5 h-5 text-muted-foreground" />
-                    )}
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors duration-300">
+                      {openIndex === index ? (
+                        <ChevronUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
+                      ) : (
+                        <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
+                      )}
+                    </div>
                   </div>
                 </div>
               </CardHeader>
               
               {openIndex === index && (
-                <CardContent className="pt-0 pb-6">
-                  <div className="pl-11">
-                    <p className="text-muted-foreground leading-relaxed">
+                <CardContent className="pt-0 pb-4 sm:pb-6 animate-in slide-in-from-top-2 duration-300">
+                  <div className="pl-11 sm:pl-13 border-l-2 border-primary/20 ml-4 sm:ml-5">
+                    <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                       {faq.answer}
                     </p>
                   </div>
@@ -164,47 +170,64 @@ function FAQ() {
 
         {/* Contact Support */}
         <div className="text-center">
-          <Card className="p-8 md:p-12 bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20">
+          <Card className="p-6 sm:p-8 md:p-12 bg-gradient-to-br from-primary/5 via-card to-secondary/5 border-primary/20 shadow-2xl">
             <CardContent className="p-0">
-              <h3 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">
-                Không tìm thấy câu trả lời?
-              </h3>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-                Đội ngũ hỗ trợ của chúng tôi luôn sẵn sàng giúp đỡ bạn. Liên hệ ngay để được tư vấn chi tiết.
-              </p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div className="flex items-center justify-center space-x-3">
-                  <MessageCircle className="w-6 h-6 text-primary" />
-                  <div className="text-left">
-                    <div className="font-semibold text-foreground">Chat trực tuyến</div>
-                    <div className="text-sm text-muted-foreground">Hỗ trợ 24/7</div>
-                  </div>
+              <div className="flex flex-col items-center mb-6">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center mb-4">
+                  <MessageCircle className="w-8 h-8 sm:w-10 sm:h-10 text-primary" />
                 </div>
-                
-                <div className="flex items-center justify-center space-x-3">
-                  <Mail className="w-6 h-6 text-primary" />
-                  <div className="text-left">
-                    <div className="font-semibold text-foreground">Email</div>
-                    <div className="text-sm text-muted-foreground">support@eventapp.vn</div>
-                  </div>
-                </div>
-                
-                <div className="flex items-center justify-center space-x-3">
-                  <Phone className="w-6 h-6 text-primary" />
-                  <div className="text-left">
-                    <div className="font-semibold text-foreground">Hotline</div>
-                    <div className="text-sm text-muted-foreground">1900-xxxx</div>
-                  </div>
-                </div>
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-foreground">
+                  Không tìm thấy câu trả lời?
+                </h3>
+                <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8 px-2">
+                  Đội ngũ hỗ trợ của chúng tôi luôn sẵn sàng giúp đỡ bạn. Liên hệ ngay để được tư vấn chi tiết.
+                </p>
               </div>
               
-              <div className="flex flex-wrap justify-center gap-4">
-                <Button size="lg" className="px-8">
-                  <MessageCircle className="w-4 h-4 mr-2 text-white" />
-                  <span className="text-white">Chat ngay</span>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                <Card className="p-4 bg-card/50 border-primary/10 hover:border-primary/30 transition-all duration-300 hover:scale-105">
+                  <div className="flex items-center justify-center space-x-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <MessageCircle className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-semibold text-foreground text-sm sm:text-base">Chat trực tuyến</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground">Hỗ trợ 24/7</div>
+                    </div>
+                  </div>
+                </Card>
+                
+                <Card className="p-4 bg-card/50 border-primary/10 hover:border-primary/30 transition-all duration-300 hover:scale-105">
+                  <div className="flex items-center justify-center space-x-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Mail className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-semibold text-foreground text-sm sm:text-base">Email</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground">support@eventapp.vn</div>
+                    </div>
+                  </div>
+                </Card>
+                
+                <Card className="p-4 bg-card/50 border-primary/10 hover:border-primary/30 transition-all duration-300 hover:scale-105">
+                  <div className="flex items-center justify-center space-x-3">
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Phone className="w-5 h-5 text-primary" />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-semibold text-foreground text-sm sm:text-base">Hotline</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground">1900-xxxx</div>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+              
+              <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                <Button size="lg" className="px-6 sm:px-8 w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Chat ngay
                 </Button>
-                <Button variant="outline" size="lg" className="px-8">
+                <Button variant="outline" size="lg" className="px-6 sm:px-8 w-full sm:w-auto border-primary/30 text-primary hover:bg-primary transition-all duration-300 hover:scale-105">
                   <Mail className="w-4 h-4 mr-2" />
                   Gửi email
                 </Button>

@@ -17,10 +17,7 @@ import {
   Clock,
   MessageCircle,
   Send,
-  CheckCircle,
-  Building,
-  Users,
-  Globe
+  CheckCircle
 } from 'lucide-react';
 
 function Contact() {

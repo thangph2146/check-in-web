@@ -1,6 +1,5 @@
 import Hero from "@/components/home/hero";
 import ListEvent from "@/components/home/list-event";
-import Testimonials from "@/components/home/testimonials";
 import HowItWorks from "@/components/home/how-it-works";
 import FAQ from "@/components/home/faq";
 import Newsletter from "@/components/home/newsletter";
@@ -9,7 +8,7 @@ import Footer from "@/components/layouts/footer";
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-full overflow-x-hidden">
       {/* Hero Section */}
       <Hero />
       
@@ -18,9 +17,6 @@ export default function Home() {
       
       {/* How It Works Section */}
       <HowItWorks />
-      
-      {/* Testimonials Section */}
-      <Testimonials />
       
       {/* FAQ Section */}
       <FAQ />

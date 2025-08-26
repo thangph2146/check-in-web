@@ -269,7 +269,7 @@ function NavbarContent({ className }: { className?: string }) {
       <MobileNav>
         <MobileNavHeader>
           <CustomNavbarLogo />
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1">
             <AnimatedThemeToggler className="p-2 rounded-lg hover:bg-accent/10 transition-colors relative z-20" />
             <Drawer open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <DrawerTrigger asChild>
@@ -277,8 +277,8 @@ function NavbarContent({ className }: { className?: string }) {
                   <Menu className="w-5 h-5 text-foreground" />
                 </button>
               </DrawerTrigger>
-              <DrawerContent className="h-[85vh]">
-                <DrawerHeader className="border-b border-border">
+              <DrawerContent className="h-[90vh] max-h-[90vh] rounded-t-lg">
+                <DrawerHeader className="border-b border-border pb-4">
                   <div className="flex items-center justify-between">
                     <DrawerTitle className="text-lg font-semibold">
                       Navigation Menu
@@ -291,24 +291,24 @@ function NavbarContent({ className }: { className?: string }) {
                     </button>
                   </div>
                 </DrawerHeader>
-                <div className="flex-1 overflow-y-auto p-4">
-                  <div className="space-y-4">
+                <div className="flex-1 overflow-y-auto p-4 space-y-2">
+                  <div className="space-y-2">
                     {navigationItems.map((item, index) => (
-                      <div key={`mobile-item-${index}`} className="space-y-2">
+                      <div key={`mobile-item-${index}`} className="space-y-1">
                         {item.subItems ? (
-                          <div className="space-y-2">
-                            <div className="flex items-center space-x-3 px-3 py-2 rounded-lg">
-                              <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10">
+                          <div className="space-y-1">
+                            <div className="flex items-center space-x-3 px-3 py-3 rounded-lg bg-accent/5">
+                              <div className="flex items-center justify-center w-7 h-7 rounded-md bg-primary/10">
                                 {item.icon}
                               </div>
                               <div className="flex flex-col">
-                                <span className="font-medium">{item.name}</span>
+                                <span className="font-medium text-sm">{item.name}</span>
                                 <span className="text-xs text-muted-foreground">
                                   {item.subItems.length} items
                                 </span>
                               </div>
                             </div>
-                            <div className="ml-6 space-y-1">
+                            <div className="ml-4 space-y-1">
                               {item.subItems.map((subItem, subIdx) => (
                                 <div
                                   key={`mobile-sub-${subIdx}`}
@@ -325,15 +325,15 @@ function NavbarContent({ className }: { className?: string }) {
                                       <div className="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10">
                                         {subItem.icon}
                                       </div>
-                                      <div className="flex flex-col">
-                                        <span className="font-medium">
+                                      <div className="flex flex-col flex-1">
+                                        <span className="font-medium text-sm">
                                           {subItem.name}
                                         </span>
                                         <span className="text-xs text-muted-foreground">
                                           External link
                                         </span>
                                       </div>
-                                      <ExternalLink className="w-3 h-3 ml-auto text-muted-foreground" />
+                                      <ExternalLink className="w-3 h-3 text-muted-foreground" />
                                     </a>
                                   ) : (
                                     <Link
@@ -344,8 +344,8 @@ function NavbarContent({ className }: { className?: string }) {
                                       <div className="flex items-center justify-center w-6 h-6 rounded-md bg-primary/10">
                                         {subItem.icon}
                                       </div>
-                                      <div className="flex flex-col">
-                                        <span className="font-medium">
+                                      <div className="flex flex-col flex-1">
+                                        <span className="font-medium text-sm">
                                           {subItem.name}
                                         </span>
                                         <span className="text-xs text-muted-foreground">
@@ -361,14 +361,14 @@ function NavbarContent({ className }: { className?: string }) {
                         ) : (
                           <Link
                             href={item.link}
-                            className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-accent/50 transition-colors"
+                            className="flex items-center space-x-3 px-3 py-3 rounded-lg hover:bg-accent/50 transition-colors"
                             onClick={handleMobileMenuClose}
                           >
-                            <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary/10">
+                            <div className="flex items-center justify-center w-7 h-7 rounded-md bg-primary/10">
                               {item.icon}
                             </div>
                             <div className="flex flex-col">
-                              <span className="font-medium">{item.name}</span>
+                              <span className="font-medium text-sm">{item.name}</span>
                               <span className="text-xs text-muted-foreground">
                                 Direct link
                               </span>
@@ -376,22 +376,22 @@ function NavbarContent({ className }: { className?: string }) {
                           </Link>
                         )}
                         {index < navigationItems.length - 1 && (
-                          <div className="border-t border-border my-4" />
+                          <div className="border-t border-border my-3" />
                         )}
                       </div>
                     ))}
                   </div>
-                  <div className="border-t border-border mt-6 pt-4">
+                  <div className="border-t border-border mt-4 pt-4">
                     <Link
                       href="/login"
-                      className="flex items-center space-x-3 px-3 py-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                      className="flex items-center space-x-3 px-3 py-4 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
                       onClick={handleMobileMenuClose}
                     >
-                      <div className="flex items-center justify-center w-8 h-8 rounded-md bg-white/20">
+                      <div className="flex items-center justify-center w-7 h-7 rounded-md bg-white/20">
                         <LogIn className="w-4 h-4 text-white" />
                       </div>
                       <div className="flex flex-col text-white">
-                        <span className="font-medium">Login</span>
+                        <span className="font-medium text-sm">Login</span>
                         <span className="text-xs">Access your account</span>
                       </div>
                     </Link>
@@ -457,9 +457,9 @@ const CustomNavbarLogo = () => {
     return (
       <Link
         href="/"
-        className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-0 text-sm font-normal text-black dark:text-white"
+        className="relative z-20 mr-2 flex items-center space-x-2 px-1 py-0 text-sm font-normal text-black dark:text-white"
       >
-        <div className="w-20 h-20 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
+        <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-200 dark:bg-gray-800 rounded animate-pulse" />
       </Link>
     );
   }
@@ -469,14 +469,14 @@ const CustomNavbarLogo = () => {
   return (
     <Link
       href="/"
-      className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-0 text-sm font-normal text-black dark:text-white"
+      className="relative z-20 mr-2 flex items-center space-x-2 px-1 py-0 text-sm font-normal text-black dark:text-white"
     >
       <Image
         src={isDark ? "/logo-white.png" : "/logo.png"}
         alt="logo"
         width={100}
         height={100}
-        className="w-16 h-16 object-contain"
+        className="w-12 h-12 sm:w-16 sm:h-16 object-contain"
         priority
       />
     </Link>
